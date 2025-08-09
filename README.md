@@ -1,4 +1,9 @@
-# Prog.Web
-# theme: jekyll-theme-minimal/n
-# title: Octocat's homepage/n
-# description: Bookmark this to keep an eye on my project updates!
+# Mi Página Web en GitHub
+
+¡Hola! Esta es mi página web personal en GitHub.
+
+## Sobre mí
+- 🌱 Estoy aprendiendo...
+
+## Mis proyectos
+- [Proyecto 1] Realizar la pagina web
