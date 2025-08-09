@@ -1,2 +1,4 @@
 # Prog.Web
-Descripcion: Aqui trabajaremos en el resto del curso
+theme: jekyll-theme-minimal
+title: Octocat's homepage
+description: Bookmark this to keep an eye on my project updates!
