@@ -1,12 +1,11 @@
 # <div align="center">✨ Mi Página Web en GitHub ✨</div>
 
----
 
 <div>
   <img src="images.jpeg" width="300" align="left" style="margin-right: 20px; border-radius: 8px;"/>
   <div>
     <h3>¡Hola! 👋</h3>
-    <p>Bienvenido/a a mi página web en GitHub. Soy <strong>Nombre/Apodo</strong> y aquí comparto mis proyectos y experiencias.</p>
+    <p>Bienvenido/a a mi página web en GitHub. Soy <strong>Alfred Navarrete</strong> y aquí comparto mis proyectos y experiencias.</p>
     <ul>
       <li>🔧 Estudiante...</li>
       <li>🌱 Aprendiendo...</li>
@@ -15,12 +14,10 @@
   <div style="clear: both;"></div>
 </div>
 
----
 
 ## <div align="center">🚀 Mis Proyectos Destacados</div>
 <p align="center">Aquí encontrarás algunos de mis trabajos más relevantes:</p>
 
----
 
 ### Carrusel
 <div style="display: flex; overflow-x: auto; gap: 15px; padding: 15px 0; justify-content: center;">
@@ -29,7 +26,6 @@
   <img src="images (1).jpeg" width="400" style="border-radius: 8px;"/>
 </div>
 
----
 
 ### 📌 Información Adicional
 <div style="background-color: #f6f8fa; padding: 15px; border-radius: 8px; margin-top: 20px;">
