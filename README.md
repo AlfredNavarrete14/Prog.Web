@@ -8,9 +8,8 @@
     <h3>¡Hola! 👋</h3>
     <p>Bienvenido/a a mi página web en GitHub. Soy <strong>Nombre/Apodo</strong> y aquí comparto mis proyectos y experiencias.</p>
     <ul>
-      <li>🔧 Especializado en...</li>
+      <li>🔧 Estudiante...</li>
       <li>🌱 Aprendiendo...</li>
-      <li>📫 Contáctame: <a href="mailto:tu@email.com">tu@email.com</a></li>
     </ul>
   </div>
   <div style="clear: both;"></div>
@@ -23,11 +22,11 @@
 
 ---
 
-### Carrusel de Imágenes (simulado)
+### Carrusel
 <div style="display: flex; overflow-x: auto; gap: 15px; padding: 15px 0; justify-content: center;">
-  <img src="https://via.placeholder.com/400x250.png?text=Proyecto+1" alt="Proyecto 1" width="400" style="border-radius: 8px;"/>
-  <img src="https://via.placeholder.com/400x250.png?text=Proyecto+2" alt="Proyecto 2" width="400" style="border-radius: 8px;"/>
-  <img src="https://via.placeholder.com/400x250.png?text=Proyecto+3" alt="Proyecto 3" width="400" style="border-radius: 8px;"/>
+  <img src="descargar.jpeg" width="400" style="border-radius: 8px;"/>
+  <img src="descargar (1).jpeg" width="400" style="border-radius: 8px;"/>
+  <img src="images (1).jpeg" width="400" style="border-radius: 8px;"/>
 </div>
 
 ---
@@ -37,7 +36,7 @@
   <h4>¿Por qué usar GitHub para tu página web?</h4>
   <p>GitHub es una plataforma ideal para alojar contenido estático, mostrar proyectos y colaborar. Puedes:</p>
   <ul>
-    <li>Crear un blog técnico con Jekyll</li>
+    <li>Crear un blog técnico</li>
     <li>Mostrar tu portafolio de desarrollo</li>
     <li>Documentar tus repositorios</li>
   </ul>
