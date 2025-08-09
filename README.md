@@ -1,4 +1,4 @@
-## ✨ Mi Página Web en GitHub ✨
+<p align="center">✨ Mi Página Web en GitHub ✨</p>
 
 
 <div>
@@ -15,7 +15,8 @@
 </div>
 
 
-##🚀 Mis Proyectos Destacados
+
+<p align="center">🚀 Mis Proyectos Destacados</p>
 <p align="center">Aquí encontrarás algunos de mis trabajos más relevantes:</p>
 
 
