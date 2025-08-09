@@ -3,7 +3,7 @@
 ---
 
 <div>
-  <img src="https://via.placeholder.com/300x200.png?text=Imagen+Ejemplo" alt="images.jpeg" width="300" align="left" style="margin-right: 20px; border-radius: 8px;"/>
+  <img src="images.jpeg" width="300" align="left" style="margin-right: 20px; border-radius: 8px;"/>
   <div>
     <h3>¡Hola! 👋</h3>
     <p>Bienvenido/a a mi página web en GitHub. Soy <strong>Nombre/Apodo</strong> y aquí comparto mis proyectos y experiencias.</p>
