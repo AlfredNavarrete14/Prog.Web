@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Hoja de Vida</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .title {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .description {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: #4b6cb7;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .add-btn {
+            background-color: #4b6cb7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+        
+        .add-btn:hover {
+            background-color: #3a5999;
+        }
+        
+        .item {
+            background-color: #f9fafb;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .item h3 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .item p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .item .date {
+            color: #4b6cb7;
+            font-weight: 500;
+        }
+        
+        .delete-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            background-color: #f9fafb;
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+        }
+        
+        .skill-name {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .skill-level {
+            width: 60%;
+            background-color: #eef1f6;
+            border-radius: 5px;
+            overflow: hidden;
+            height: 10px;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background-color: #4b6cb7;
+            border-radius: 5px;
+        }
+        
+        .skill-delete-btn {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-left: 15px;
+        }
+        
+        form {
+            background-color: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .form-buttons button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .save-btn {
+            background-color: #4b6cb7;
+            color: white;
+        }
+        
+        .cancel-btn {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-img {
+                width: 120px;
+                height: 120px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .skill-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .skill-level {
+                width: 100%;
+                margin-top: 8px;
+                margin-bottom: 8px;
+            }
+            
+            .skill-delete-btn {
+                align-self: flex-end;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="profile">
+                <img src="foto.jpg" alt="Foto de perfil" class="profile-img">
+                <h1>Alfred Navarrete</h1>
+                <p class="title">Ingeniero en Sistemas y Computación</p>
+                <p class="description">Estudiante de 10° semestre de Ingeniería de Sistemas en la Universidad Santiago de Cali.</p>
+            </div>
+        </header>
+        
+        <section class="section">
+            <h2>
+                Historial Académico
+                <button class="add-btn" id="addEducationBtn"><i class="fas fa-plus"></i> Agregar</button>
+            </h2>
+            <div id="educationList">
+                <div class="item">
+                    <h3>Ingeniería de Sistemas</h3>
+                    <p class="date">2025 - Presencial</p>
+                    <p>Universidad Santiago de Cali</p>
+                    <p>Actualmente cursando 10° semestre</p>
+                    <button class="delete-btn"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="item">
+                    <h3>Técnico en Programación</h3>
+                    <p class="date">2018 - 2019</p>
+                    <p>SENA</p>
+                    <p>Programación básica y desarrollo web</p>
+                    <button class="delete-btn"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            
+            <form id="educationForm" class="hidden">
+                <div class="form-group">
+                    <label for="educationTitle">Título/Carrera</label>
+                    <input type="text" id="educationTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="educationPeriod">Periodo</label>
+                    <input type="text" id="educationPeriod" placeholder="Ej: 2020 - 2024" required>
+                </div>
+                <div class="form-group">
+                    <label for="educationInstitution">Institución</label>
+                    <input type="text" id="educationInstitution" required>
+                </div>
+                <div class="form-group">
+                    <label for="educationDescription">Descripción</label>
+                    <textarea id="educationDescription"></textarea>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="cancel-btn" id="cancelEducation">Cancelar</button>
+                    <button type="submit" class="save-btn">Guardar</button>
+                </div>
+            </form>
+        </section>
+        
+        <section class="section">
+            <h2>
+                Experiencia Laboral
+                <button class="add-btn" id="addExperienceBtn"><i class="fas fa-plus"></i> Agregar</button>
+            </h2>
+            <div id="experienceList">
+                <div class="item">
+                    <h3>Técnico medidor</h3>
+                    <p class="date">Enero 2024 - enero 2025</p>
+                    <p>Dico Telecomunicaciones</p>
+                    <p>Medidor de fibra óptica, identificación de perdidas y diagnóstico de fallas</p>
+                    <button class="delete-btn"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            
+            <form id="experienceForm" class="hidden">
+                <div class="form-group">
+                    <label for="experienceTitle">Puesto de trabajo</label>
+                    <input type="text" id="experienceTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="experiencePeriod">Periodo</label>
+                    <input type="text" id="experiencePeriod" placeholder="Ej: Enero 2022 - Junio 2023" required>
+                </div>
+                <div class="form-group">
+                    <label for="experienceCompany">Empresa</label>
+                    <input type="text" id="experienceCompany" required>
+                </div>
+                <div class="form-group">
+                    <label for="experienceDescription">Descripción</label>
+                    <textarea id="experienceDescription"></textarea>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="cancel-btn" id="cancelExperience">Cancelar</button>
+                    <button type="submit" class="save-btn">Guardar</button>
+                </div>
+            </form>
+        </section>
+        
+        <section class="section">
+            <h2>
+                Habilidades
+                <button class="add-btn" id="addSkillBtn"><i class="fas fa-plus"></i> Agregar</button>
+            </h2>
+            <div id="skillsList">
+                <div class="skill-item">
+                    <div class="skill-name">Python</div>
+                    <div class="skill-level">
+                        <div class="skill-progress" style="width: 70%;"></div>
+                    </div>
+                    <button class="skill-delete-btn"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">JavaScript</div>
+                    <div class="skill-level">
+                        <div class="skill-progress" style="width: 65%;"></div>
+                    </div>
+                    <button class="skill-delete-btn"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">HTML/CSS</div>
+                    <div class="skill-level">
+                        <div class="skill-progress" style="width: 60%;"></div>
+                    </div>
+                    <button class="skill-delete-btn"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">Inglés</div>
+                    <div class="skill-level">
+                        <div class="skill-progress" style="width: 55%;"></div>
+                    </div>
+                    <button class="skill-delete-btn"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            
+            <form id="skillForm" class="hidden">
+                <div class="form-group">
+                    <label for="skillName">Habilidad</label>
+                    <input type="text" id="skillName" required>
+                </div>
+                <div class="form-group">
+                    <label for="skillLevel">Nivel (0-100%)</label>
+                    <input type="number" id="skillLevel" min="0" max="100" required>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="cancel-btn" id="cancelSkill">Cancelar</button>
+                    <button type="submit" class="save-btn">Guardar</button>
+                </div>
+            </form>
+        </section>
+        
+        <footer>
+            <p>© 2025 Alfred Navarrete - Hoja de Vida</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Referencias a botones de agregar
+            const addEducationBtn = document.getElementById('addEducationBtn');
+            const addExperienceBtn = document.getElementById('addExperienceBtn');
+            const addSkillBtn = document.getElementById('addSkillBtn');
+            
+            // Referencias a formularios
+            const educationForm = document.getElementById('educationForm');
+            const experienceForm = document.getElementById('experienceForm');
+            const skillForm = document.getElementById('skillForm');
+            
+            // Referencias a listas
+            const educationList = document.getElementById('educationList');
+            const experienceList = document.getElementById('experienceList');
+            const skillsList = document.getElementById('skillsList');
+            
+            // Referencias a botones de cancelar
+            const cancelEducation = document.getElementById('cancelEducation');
+            const cancelExperience = document.getElementById('cancelExperience');
+            const cancelSkill = document.getElementById('cancelSkill');
+            
+            // Mostrar formulario de educación
+            addEducationBtn.addEventListener('click', function() {
+                educationForm.classList.remove('hidden');
+            });
+            
+            // Ocultar formulario de educación
+            cancelEducation.addEventListener('click', function() {
+                educationForm.classList.add('hidden');
+            });
+            
+            // Guardar educación
+            educationForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const title = document.getElementById('educationTitle').value;
+                const period = document.getElementById('educationPeriod').value;
+                const institution = document.getElementById('educationInstitution').value;
+                const description = document.getElementById('educationDescription').value;
+                
+                const educationItem = document.createElement('div');
+                educationItem.classList.add('item');
+                educationItem.innerHTML = `
+                    <h3>${title}</h3>
+                    <p class="date">${period}</p>
+                    <p>${institution}</p>
+                    <p>${description}</p>
+                    <button class="delete-btn"><i class="fas fa-times"></i></button>
+                `;
+                
+                educationList.appendChild(educationItem);
+                educationForm.reset();
+                educationForm.classList.add('hidden');
+                
+                // Agregar funcionalidad al botón de eliminar
+                const deleteBtn = educationItem.querySelector('.delete-btn');
+                deleteBtn.addEventListener('click', function() {
+                    educationList.removeChild(educationItem);
+                });
+            });
+            
+            // Mostrar formulario de experiencia
+            addExperienceBtn.addEventListener('click', function() {
+                experienceForm.classList.remove('hidden');
+            });
+            
+            // Ocultar formulario de experiencia
+            cancelExperience.addEventListener('click', function() {
+                experienceForm.classList.add('hidden');
+            });
+            
+            // Guardar experiencia
+            experienceForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const title = document.getElementById('experienceTitle').value;
+                const period = document.getElementById('experiencePeriod').value;
+                const company = document.getElementById('experienceCompany').value;
+                const description = document.getElementById('experienceDescription').value;
+                
+                const experienceItem = document.createElement('div');
+                experienceItem.classList.add('item');
+                experienceItem.innerHTML = `
+                    <h3>${title}</h3>
+                    <p class="date">${period}</p>
+                    <p>${company}</p>
+                    <p>${description}</p>
+                    <button class="delete-btn"><i class="fas fa-times"></i></button>
+                `;
+                
+                experienceList.appendChild(experienceItem);
+                experienceForm.reset();
+                experienceForm.classList.add('hidden');
+                
+                // Agregar funcionalidad al botón de eliminar
+                const deleteBtn = experienceItem.querySelector('.delete-btn');
+                deleteBtn.addEventListener('click', function() {
+                    experienceList.removeChild(experienceItem);
+                });
+            });
+            
+            // Mostrar formulario de habilidades
+            addSkillBtn.addEventListener('click', function() {
+                skillForm.classList.remove('hidden');
+            });
+            
+            // Ocultar formulario de habilidades
+            cancelSkill.addEventListener('click', function() {
+                skillForm.classList.add('hidden');
+            });
+            
+            // Guardar habilidad
+            skillForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('skillName').value;
+                const level = document.getElementById('skillLevel').value;
+                
+                const skillItem = document.createElement('div');
+                skillItem.classList.add('skill-item');
+                skillItem.innerHTML = `
+                    <div class="skill-name">${name}</div>
+                    <div class="skill-level">
+                        <div class="skill-progress" style="width: ${level}%;"></div>
+                    </div>
+                    <button class="skill-delete-btn"><i class="fas fa-times"></i></button>
+                `;
+                
+                skillsList.appendChild(skillItem);
+                skillForm.reset();
+                skillForm.classList.add('hidden');
+                
+                // Agregar funcionalidad al botón de eliminar
+                const deleteBtn = skillItem.querySelector('.skill-delete-btn');
+                deleteBtn.addEventListener('click', function() {
+                    skillsList.removeChild(skillItem);
+                });
+            });
+            
+            // Agregar funcionalidad a los botones de eliminar existentes
+            const deleteButtons = document.querySelectorAll('.delete-btn, .skill-delete-btn');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const item = this.closest('.item, .skill-item');
+                    item.parentElement.removeChild(item);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
