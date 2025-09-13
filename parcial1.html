@@ -1,1 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grupos de Investigación</title>
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container py-4">
+  <h1 class="mb-4">Gestión de Grupos de Investigación</h1>
 
+  <!-- Listado de grupos (GET) -->
+  <button id="btnCargar" class="btn btn-primary mb-3">Cargar Grupos (GET)</button>
+  <ul id="listaGrupos" class="list-group mb-4"></ul>
+
+  <!-- Detalle del grupo seleccionado + actividades -->
+  <div id="detalleGrupo" class="mb-4"></div>
+
+  <!-- Formulario registrar docente (POST) -->
+  <h2 class="h5">Registrar Docente (POST)</h2>
+  <form id="formDocente" class="mb-2">
+    <input type="text"  class="form-control mb-2" name="nombre"   placeholder="Nombre docente" required>
+    <input type="text"  class="form-control mb-2" name="formacion" placeholder="Formación académica" required>
+    <input type="text"  class="form-control mb-2" name="horario"   placeholder="Horario de atención" required>
+    <select class="form-control mb-2" name="grupo" required>
+      <option value="COMBA I+D">COMBA I+D</option>
+      <option value="GIEIAM">GIEIAM</option>
+    </select>
+    <button type="submit" class="btn btn-success">Registrar</button>
+  </form>
+  <h3 class="h6 mt-3">Docentes registrados</h3>
+  <ul id="listaDocentes" class="list-group mb-4"></ul>
+
+  <!-- Formulario estudiante (COMBA I+D) -->
+  <h2 class="h5">Vincular Estudiante (COMBA I+D)</h2>
+  <form id="formEstudiante" class="mb-2">
+    <input type="text"  class="form-control mb-2" name="nombre"  placeholder="Nombre" required>
+    <input type="text"  class="form-control mb-2" name="codigo"  placeholder="Código" required>
+    <input type="text"  class="form-control mb-2" name="carrera" placeholder="Carrera" required>
+    <select class="form-control mb-2" name="semillero" required>
+      <option value="Comba">Comba</option>
+      <option value="Informa">Informa</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Vincular</button>
+  </form>
+  <h3 class="h6 mt-3">Estudiantes COMBA I+D</h3>
+  <ul id="listaEstudiantes" class="list-group mb-4"></ul>
+
+  <!-- Formulario actividad semillero (COMBA I+D) -->
+  <h2 class="h5">Agregar Actividad (COMBA I+D)</h2>
+  <form id="formActividad" class="mb-2">
+    <select class="form-control mb-2" name="tipo" required>
+      <option value="Taller">Taller</option>
+      <option value="Conferencia">Conferencia</option>
+      <option value="Evento">Evento</option>
+    </select>
+    <input type="date"   class="form-control mb-2" name="fecha"  required>
+    <input type="time"   class="form-control mb-2" name="hora"   required>
+    <input type="number" class="form-control mb-2" name="limite" placeholder="Límite asistentes" min="1" required>
+    <textarea class="form-control mb-2" name="resumen" rows="3" placeholder="Resumen" required></textarea>
+    <button type="submit" class="btn btn-warning">Agregar</button>
+  </form>
+  <p class="text-muted small">Las actividades se ven en el detalle del grupo (arriba).</p>
+
+  <script>
+    const API = 'https://jsonplaceholder.typicode.com';
+
+    const lista             = document.getElementById("listaGrupos");
+    const btnCargar         = document.getElementById("btnCargar");
+    const formDocente       = document.getElementById("formDocente");
+    const listaDocentes     = document.getElementById("listaDocentes");
+    const detalle           = document.getElementById("detalleGrupo");
+
+    const formEstudiante    = document.getElementById("formEstudiante");
+    const listaEstudiantes  = document.getElementById("listaEstudiantes");
+
+    const formActividad     = document.getElementById("formActividad");
+
+    // Estado mínimo:
+    let grupos = [];                 // se llenará con GET simulado
+    let grupoActual = null;          // 'COMBA I+D' o 'GIEIAM'
+    const actividades = { 'COMBA I+D': [], 'GIEIAM': [] }; // actividades por grupo
+    const estudiantesCOMBA = [];     // {nombre, codigo, carrera, semillero}
+    const docentes = [];             // {nombre, formacion, horario, grupo}
+
+    // Render mínimos
+    function renderDocentes() {
+      listaDocentes.innerHTML = docentes.length
+        ? docentes.map(d =>
+            `<li class="list-group-item">
+              <strong>${d.nombre}</strong> — ${d.formacion} — ${d.horario} — Grupo: ${d.grupo}
+             </li>`).join('')
+        : '<li class="list-group-item text-muted">Sin docentes registrados.</li>';
+    }
+    function renderEstudiantes() {
+      listaEstudiantes.innerHTML = estudiantesCOMBA.length
+        ? estudiantesCOMBA.map(s =>
+            `<li class="list-group-item">
+               ${s.nombre} (${s.carrera}) — Semillero: ${s.semillero}, Código: ${s.codigo}
+             </li>`).join('')
+        : '<li class="list-group-item text-muted">Sin estudiantes vinculados.</li>';
+    }
+
+    // GET - cargar grupos (simulado con 2 usuarios)
+    btnCargar.addEventListener("click", async () => {
+      try {
+        const res  = await fetch(`${API}/users?_limit=2`);
+        const data = await res.json();
+
+        grupos = [
+          {
+            id: 'COMBA',
+            nombre: 'COMBA I+D (Grupo de Investigación en Computación Móvil y Banda Ancha.)',
+            objetivos: '1.Arquitectura de tecnología informática. 2.Computación ubicua, urbana y móvil. 3.Desarrollo de sistemas informáticos. 4.Redes Inalámbricas para la Inclusión digital y el desarrollo económico.',
+            director: data[0]?.name  || 'Por definir',
+            email:    data[0]?.email || ''
+          },
+          {
+            id: 'GIEIAM',
+            nombre: 'GIEIAM (Grupo de Investigación en Ingeniería Electrónica Industrial y Ambiental.)',
+            objetivos: '1.Gestión y control de la contaminación ambiental. 2.Instrumentación, automatización y sistemas inteligentes. 3.Logística, operaciones, productividad y gestión de proyectos.',
+            director: data[1]?.name  || 'Por definir',
+            email:    data[1]?.email || ''
+          }
+        ];
+      } catch (e) {
+        // fallback si falla el GET
+        grupos = [
+          { id:'COMBA',  nombre:'COMBA I+D', objetivos:'1.Arquitectura de tecnología informática. 2.Computación ubicua, urbana y móvil. 3.Desarrollo de sistemas informáticos. 4.Redes Inalámbricas para la Inclusión digital y el desarrollo económico.', director:'', email:'' },
+          { id:'GIEIAM', nombre:'GIEIAM',    objetivos:'1.Gestión y control de la contaminación ambiental. 2.Instrumentación, automatización y sistemas inteligentes. 3.Logística, operaciones, productividad y gestión de proyectos.',       director:'', email:'' }
+        ];
+      }
+
+      // Grupos directores:
+      grupos[0].director = 'Claudia Liliana Zuñiga Cañon';
+      grupos[0].email    = 'comba@usc.edu.co';
+      grupos[1].director = 'Diana Paola Bernal Suárez';
+      grupos[1].email    = 'gieiam@usc.edu.co';
+
+      // Pintar la lista de grupos
+      lista.innerHTML = '';
+      grupos.forEach(g => {
+        const li = document.createElement('li');
+        li.className = 'list-group-item d-flex justify-content-between align-items-center';
+        li.innerHTML = `<div><strong>${g.nombre}</strong><br><small>${g.objetivos}</small></div>`;
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-outline-primary btn-sm';
+        btn.textContent = 'Ver';
+        btn.addEventListener('click', () => mostrarDetalle(g.nombre));
+        li.appendChild(btn);
+        lista.appendChild(li);
+      });
+
+      // sugerencia: mostrar COMBA por defecto para ver actividades
+      // mostrarDetalle('COMBA I+D');
+    });
+
+    // Mostrar detalle de grupo (y sus actividades)
+    function mostrarDetalle(nombreGrupo) {
+      grupoActual = nombreGrupo;
+      const g    = grupos.find(x => x.nombre === nombreGrupo) || {};
+      const acts = actividades[nombreGrupo] || [];
+
+      detalle.innerHTML = `
+        <div class="card mb-3">
+          <div class="card-body">
+            <h3 class="h5 mb-2">${g.nombre || nombreGrupo}</h3>
+            <p class="mb-1"><strong>Director:</strong> ${g.director || '—'}</p>
+            <p class="mb-1"><strong>Contacto:</strong> <a href="mailto:${g.email || ''}">${g.email || '—'}</a></p>
+            <p class="mb-0"><strong>Objetivos:</strong> ${g.objetivos || '—'}</p>
+          </div>
+        </div>
+        <h4 class="h6">Actividades</h4>
+        <ul id="listaActividades" class="list-group"></ul>
+      `;
+
+      const ulActs = document.getElementById('listaActividades');
+      ulActs.innerHTML = acts.length
+        ? acts.map(a => `<li class="list-group-item">
+            <strong>${a.tipo}</strong> · ${a.fecha} ${a.hora}
+            <br><small>Semillero: ${a.semillero || 'Comba'} · Cupo: ${a.limite}</small>
+            <p class="mb-0">${a.resumen}</p>
+          </li>`).join('')
+        : '<li class="list-group-item text-muted">Sin actividades registradas.</li>';
+    }
+
+    // POST - registrar docente
+    formDocente.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fd = new FormData(formDocente);
+      const payload = Object.fromEntries(fd.entries());
+
+      try {
+        const res  = await fetch(`${API}/posts`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        // guardar localmente y mostrar
+        docentes.push(payload);
+        renderDocentes();
+
+        alert(`Docente registrado (POST simulado). ID: ${data.id}`);
+        formDocente.reset();
+      } catch (err) {
+        console.error("Error en POST:", err);
+      }
+    });
+
+    // Vincular estudiante a semillero (COMBA I+D)
+    formEstudiante.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fd  = new FormData(formEstudiante);
+      const est = Object.fromEntries(fd.entries());
+      estudiantesCOMBA.push(est);
+      renderEstudiantes();
+      formEstudiante.reset();
+    });
+
+    // Agregar actividad al semillero (aparece en el detalle del grupo)
+    formActividad.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fd  = new FormData(formActividad);
+      const act = Object.fromEntries(fd.entries());
+      act.semillero = 'Comba'; // fijo porque es COMBA I+D
+
+      actividades['COMBA I+D'].push(act);
+      formActividad.reset();
+
+      if (grupoActual === 'COMBA I+D') {
+        mostrarDetalle('COMBA I+D'); // refresca la vista para ver la nueva actividad
+      }
+    });
+
+    // render inicial para mostrar “sin registros” en listas
+    renderDocentes();
+    renderEstudiantes();
+  </script>
+</body>
+</html>
